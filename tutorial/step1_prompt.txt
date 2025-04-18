@@ -1,0 +1,26 @@
+Create a function genImage to generate image using flux model on replicate
+
+It takes the image prompt and output_full_path as arguments.
+
+Example code:
+
+import replicate
+output = replicate.run(
+    "black-forest-labs/flux-schnell",
+    input={
+        "prompt": "black forest gateau cake spelling out the words \"FLUX SCHNELL\", tasty, food photography, dynamic shot",
+        "go_fast": True,
+        "megapixels": "1",
+        "num_outputs": 1,
+        "aspect_ratio": "1:1",
+        "output_format": "webp",
+        "output_quality": 80,
+        "num_inference_steps": 4
+    }
+)
+API key for replicate is at ~/.mingdaoai/replicate.key
+
+Add a __main__ block to test the function, and write the output to output.png in dir of __file__
+
+Example code at:
+https://replicate.com/black-forest-labs/flux-schnell?input=python

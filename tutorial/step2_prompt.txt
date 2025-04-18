@@ -1,0 +1,5 @@
+Change code to wrap the genImage into an MCP server
+
+Use this as an example: https://github.com/modelcontextprotocol/python-sdk
+
+Make sure use stdio as transport.  mcp.run(transport="stdio")
