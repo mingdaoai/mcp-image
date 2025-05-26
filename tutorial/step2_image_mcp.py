@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 
 # Initialize MCP server
 mcp = FastMCP("Image Generator")
-
 @mcp.tool()
 def gen_image(prompt: str, output_full_path: str) -> str:
     """
@@ -67,17 +66,25 @@ def gen_image(prompt: str, output_full_path: str) -> str:
         logger.error(error_msg)
         raise Exception(error_msg)
 
+class FlushingFileHandler(logging.FileHandler):
+    def emit(self, record):
+        super().emit(record)
+        self.flush()
+
 if __name__ == "__main__":
     # Configure logging
+    log_file = os.path.join(os.path.dirname(__file__), 'step2_image_mcp.log')
     logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        level=logging.DEBUG,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(pathname)s:%(lineno)d - %(message)s',
         handlers=[
-            logging.FileHandler('step2_image_mcp.log'),
-            logging.StreamHandler()
-        ]
+            FlushingFileHandler(log_file),
+            #logging.StreamHandler()
+        ],
+        force=True
     )
     
     # Run the MCP server
     logger.info("Starting MCP server...")
-    mcp.run(transport="stdio")
+    #mcp.run(transport="sse")
+    mcp.run()
